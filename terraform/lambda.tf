@@ -6,7 +6,7 @@ locals {
 # Só precisa de egress (para alcançar o RDS); nenhum ingress é necessário.
 resource "aws_security_group" "lambda_auth" {
   name        = "${local.name}-sg"
-  description = "Security group da Lambda de autenticação via CPF"
+  description = "Security group da Lambda de autenticacao via CPF"
   vpc_id      = data.terraform_remote_state.infra_kube.outputs.vpc_id
 
   egress {

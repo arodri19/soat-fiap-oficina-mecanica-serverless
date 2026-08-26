@@ -3,6 +3,9 @@ const { isValidCpf, normalizeCpf } = require('./cpf');
 const { findClientByCpf } = require('./db');
 
 const JWT_EXPIRES_IN = process.env.JWT_EXPIRES_IN || '1h';
+// Precisa bater com o "key" do consumer JWT configurado no Kong (kong-routes.tf), que é
+// como o plugin jwt do Kong identifica qual credencial/segredo usar para validar o token.
+const JWT_ISSUER = process.env.JWT_ISSUER || 'oficina-mecanica-app';
 
 function response(statusCode, body) {
   return {
@@ -37,7 +40,7 @@ exports.handler = async (event) => {
   const token = jwt.sign(
     { sub: client.id, cpf: client.cpf, name: client.name, role: 'CLIENT' },
     process.env.JWT_SECRET,
-    { expiresIn: JWT_EXPIRES_IN }
+    { expiresIn: JWT_EXPIRES_IN, issuer: JWT_ISSUER }
   );
 
   return response(200, {

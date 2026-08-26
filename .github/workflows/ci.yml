@@ -1,0 +1,32 @@
+name: CI — Testes
+
+on:
+  workflow_dispatch:
+
+env:
+  NODE_VERSION: '20'
+
+jobs:
+  test:
+    name: Testes Unitários
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout do código
+        uses: actions/checkout@v4.2.2
+
+      - name: Setup Node.js ${{ env.NODE_VERSION }}
+        uses: actions/setup-node@v4.4.0
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+
+      - name: Instalar dependências
+        run: npm ci
+
+      - name: Executar testes
+        run: npm test
+
+      - name: Resumo
+        if: always()
+        run: echo "### Testes ${{ job.status }}" >> $GITHUB_STEP_SUMMARY
