@@ -1,0 +1,17 @@
+project_name = "oficina-mecanica"
+aws_region   = "us-east-1"
+environment  = "dev"
+
+tf_state_bucket = "oficina-mecanica-terraform-state"
+
+lambda_runtime     = "nodejs20.x"
+lambda_timeout     = 10
+lambda_memory_size = 256
+
+db_name     = "oficina"
+db_username = "postgres"
+# db_password = definido via TF_VAR_db_password (nunca commitar em texto plano)
+
+# jwt_secret  = definido via TF_VAR_jwt_secret — MESMO valor do JWT_SECRET
+#               configurado no repositório soat-fiap-oficina-mecanica
+jwt_expires_in = "1h"

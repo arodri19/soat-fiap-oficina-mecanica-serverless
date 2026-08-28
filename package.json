@@ -1,0 +1,17 @@
+{
+  "name": "soat-fiap-oficina-mecanica-serverless",
+  "version": "1.0.0",
+  "description": "Function Serverless (AWS Lambda) — autenticação de clientes via CPF para a oficina mecânica",
+  "main": "src/handler.js",
+  "scripts": {
+    "test": "jest",
+    "build": "rm -rf dist && mkdir dist && cp -r src package.json package-lock.json dist/ && cd dist && npm ci --omit=dev"
+  },
+  "dependencies": {
+    "jsonwebtoken": "^9.0.2",
+    "pg": "^8.13.1"
+  },
+  "devDependencies": {
+    "jest": "^29.7.0"
+  }
+}
