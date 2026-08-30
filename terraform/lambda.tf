@@ -1,5 +1,9 @@
 locals {
   name = "${var.project_name}-${var.environment}-auth-cpf"
+
+  # "iss" gravado no JWT emitido (src/handler.js) — o autorizador da API Gateway
+  # (authorizer.tf) confere esse claim antes de validar a assinatura.
+  jwt_issuer = "oficina-mecanica-app"
 }
 
 # ── Security Group da Lambda ───────────────────────────────────────────────────
@@ -91,15 +95,13 @@ resource "aws_lambda_function" "auth_cpf" {
       DB_PASSWORD    = var.db_password
       JWT_SECRET     = var.jwt_secret
       JWT_EXPIRES_IN = var.jwt_expires_in
+      JWT_ISSUER     = local.jwt_issuer
     }
   }
 
   depends_on = [aws_iam_role_policy_attachment.lambda_vpc_access]
 }
 
-# Endpoint HTTPS público e simples — o Kong (repositório infra-kube) é
-# configurado para proxiar a rota de autenticação até esta URL.
-resource "aws_lambda_function_url" "auth_cpf" {
-  function_name      = aws_lambda_function.auth_cpf.function_name
-  authorization_type = "NONE"
-}
+# O ponto de entrada público é a API Gateway (api-gateway.tf), não uma Function
+# URL direta — assim as rotas sensíveis passam pelo autorizador (authorizer.tf)
+# antes de chegar na Lambda.
