@@ -5,6 +5,18 @@
 resource "aws_apigatewayv2_api" "this" {
   name          = "${var.project_name}-${var.environment}-api"
   protocol_type = "HTTP"
+
+  # Sem isso, o navegador bloqueia a chamada antes mesmo dela sair (preflight OPTIONS
+  # falha ou faltam headers Access-Control-*) sempre que o caller estiver em outra
+  # origem — inclusive o próprio Swagger UI do app principal, servido por outro host
+  # (LoadBalancer do EKS). allow_origins = "*" é seguro aqui: a API usa Bearer token
+  # (Authorization header), não cookies, então não há credential a vazar entre origens.
+  cors_configuration {
+    allow_origins = ["*"]
+    allow_methods = ["GET", "POST", "OPTIONS"]
+    allow_headers = ["content-type", "authorization"]
+    max_age       = 300
+  }
 }
 
 resource "aws_apigatewayv2_stage" "default" {
