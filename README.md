@@ -113,6 +113,14 @@ terraform apply
 Pré-requisitos: os `apply` dos repositórios `infra-kube` (VPC) e `infra-data` (RDS) já
 devem ter rodado antes — é deles que vêm a rede e o security group do banco.
 
+## Documentação da API (Swagger)
+
+As rotas deste repositório (`POST /auth/cpf` e `GET /me`) são documentadas no Swagger
+da **aplicação principal**, em `GET /api-docs` — cada operação tem um `server` próprio
+apontando para a URL desta API Gateway, então o "Try it out" do Swagger já chama o host
+certo automaticamente. Ver instruções de acesso no
+[README do `soat-fiap-oficina-mecanica`](https://github.com/arodri19/soat-fiap-oficina-mecanica#documentação-da-api).
+
 ## Testando
 
 ```bash
