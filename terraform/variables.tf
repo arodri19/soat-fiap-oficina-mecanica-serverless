@@ -93,3 +93,11 @@ variable "jwt_expires_in" {
   type        = string
   default     = "1h"
 }
+
+# ── Fase 4: webhook do Mercado Pago ───────────────────────────────────────────
+
+variable "billing_webhook_upstream_url" {
+  description = "URL base (http) do LoadBalancer do billing-service, ex.: http://a1b2.us-east-1.elb.amazonaws.com. Quando informada, a API Gateway expõe POST /webhooks/mercadopago em HTTPS repassando para o billing — o Mercado Pago só notifica URLs https. Vazio = rota não criada."
+  type        = string
+  default     = ""
+}
