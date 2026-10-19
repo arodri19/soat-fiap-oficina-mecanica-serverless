@@ -18,6 +18,6 @@ resource "aws_apigatewayv2_route" "mercadopago_webhook" {
   count = var.billing_webhook_upstream_url == "" ? 0 : 1
 
   api_id    = aws_apigatewayv2_api.this.id
-  route_key = "POST /webhooks/mercadopago"
+  route_key = "POST /api/webhooks/mercadopago"
   target    = "integrations/${aws_apigatewayv2_integration.mercadopago_webhook[0].id}"
 }

@@ -144,7 +144,7 @@ curl -i "$API_URL/me" -H "Authorization: Bearer $TOKEN"
 O billing-service ([repositório](https://github.com/arodri19/soat-fiap-oficina-mecanica-billing-service))
 recebe as notificações de pagamento do Mercado Pago, que só notifica URLs **https**. Com a
 variável `BILLING_WEBHOOK_UPSTREAM_URL` (URL http do LoadBalancer do billing) preenchida, este
-repositório cria a rota `POST /webhooks/mercadopago` na API Gateway (proxy HTTP para o billing,
+repositório cria a rota `POST /api/webhooks/mercadopago` na API Gateway (proxy HTTP para o billing,
 sem o autorizador JWT — a autenticação é a assinatura `x-signature`, validada no billing). O
 output `mercadopago_webhook_url` é a URL a configurar no painel do Mercado Pago.
 
