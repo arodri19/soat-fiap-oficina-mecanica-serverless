@@ -141,12 +141,11 @@ curl -i "$API_URL/me" -H "Authorization: Bearer $TOKEN"
 
 ## Fase 4 — webhook do Mercado Pago
 
-O billing-service ([repositório](https://github.com/arodri19/soat-fiap-oficina-mecanica-billing-service))
-recebe as notificações de pagamento do Mercado Pago, que só notifica URLs **https**. Com a
-variável `BILLING_WEBHOOK_UPSTREAM_URL` (URL http do LoadBalancer do billing) preenchida, este
-repositório cria a rota `POST /api/webhooks/mercadopago` na API Gateway (proxy HTTP para o billing,
-sem o autorizador JWT — a autenticação é a assinatura `x-signature`, validada no billing). O
-output `mercadopago_webhook_url` é a URL a configurar no painel do Mercado Pago.
+A API Gateway deste repositório também é o ponto de entrada **https** do webhook do Mercado
+Pago (que só notifica URLs https). A rota `POST /api/webhooks/mercadopago` é infraestrutura
+do **billing-service** e é criada pelo Terraform/CD **daquele** repositório, que descobre esta
+API pelo nome (`oficina-mecanica-<ambiente>-api`) e aponta a rota para o próprio LoadBalancer —
+nada a configurar aqui. Basta este pipeline ter rodado antes do deploy do billing.
 
 A Lambda de login por CPF continua lendo `ClientPF` no banco `oficina`, que na Fase 4 é o
 banco do **os-service** (dono dos dados de clientes) — leitura somente, mesmo bounded context.

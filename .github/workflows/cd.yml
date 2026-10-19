@@ -81,7 +81,6 @@ jobs:
           terraform plan -input=false \
             -var="environment=${{ github.event.inputs.environment }}" \
             -var="tf_state_bucket=${{ env.TF_STATE_BUCKET }}" \
-            -var="billing_webhook_upstream_url=${{ vars.BILLING_WEBHOOK_UPSTREAM_URL }}" \
             -out=tfplan
 
       - name: Terraform Apply

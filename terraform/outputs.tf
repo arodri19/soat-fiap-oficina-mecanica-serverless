@@ -12,8 +12,3 @@ output "api_gateway_url" {
   description = "URL base da API Gateway (HTTP API) — POST /auth/cpf é público, GET /me exige JWT válido no header Authorization."
   value       = aws_apigatewayv2_stage.default.invoke_url
 }
-
-output "mercadopago_webhook_url" {
-  description = "URL https do webhook do Mercado Pago (configurar no painel do Mercado Pago). BILLING_PUBLIC_URL do billing-service = api_gateway_url (sem o sufixo /api/webhooks/mercadopago)."
-  value       = var.billing_webhook_upstream_url == "" ? null : "${trimsuffix(aws_apigatewayv2_stage.default.invoke_url, "/")}/api/webhooks/mercadopago"
-}
