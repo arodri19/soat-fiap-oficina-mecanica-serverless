@@ -93,3 +93,4 @@ variable "jwt_expires_in" {
   type        = string
   default     = "1h"
 }
+

@@ -138,3 +138,14 @@ curl -i "$API_URL/me"
 TOKEN="<token retornado pelo login acima>"
 curl -i "$API_URL/me" -H "Authorization: Bearer $TOKEN"
 ```
+
+## Fase 4 — webhook do Mercado Pago
+
+A API Gateway deste repositório também é o ponto de entrada **https** do webhook do Mercado
+Pago (que só notifica URLs https). A rota `POST /api/webhooks/mercadopago` é infraestrutura
+do **billing-service** e é criada pelo Terraform/CD **daquele** repositório, que descobre esta
+API pelo nome (`oficina-mecanica-<ambiente>-api`) e aponta a rota para o próprio LoadBalancer —
+nada a configurar aqui. Basta este pipeline ter rodado antes do deploy do billing.
+
+A Lambda de login por CPF continua lendo `ClientPF` no banco `oficina`, que na Fase 4 é o
+banco do **os-service** (dono dos dados de clientes) — leitura somente, mesmo bounded context.
